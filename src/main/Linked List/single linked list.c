@@ -5,7 +5,9 @@ struct node //node for single linked list
 {
     int data;
     struct node *next;
-}*start=NULL;
+};//*start=NULL;
+struct node *start=NULL;
+
 void main()
 {
     int i,j;
@@ -17,22 +19,25 @@ void main()
         printf("4. Insert a node at end\n");
         printf("5. Insert a node after a node\n");
         printf("6. Insert a node before a node\n");
-        printf("7. Delete a node at beginning\n");
+        /*printf("7. Delete a node at beginning\n");
         printf("8. Delete a node at middle\n");
         printf("9. Delete a node at end\n");
         printf("10. Delete a node after a node\n");
         printf("11. Delete a node before a node\n");
         printf("12. Delete list\n");
         printf("13. Search list\n");
-        printf("14. Sort list\n");
+        printf("14. Sort list\n");*/
         printf("15. Traverse list\n");
         printf("16. Exit\n");
         scanf("%d",&i);
         switch(i)
         {
-            case 1: create_list(start);
+            case 1: create_list();
+                    printf("%p\n%d\n",start->next,start->data);
                     break;
-            case 2: insert_beg(); printf("%d\n",start->next->next->data); break;
+            case 2: insert_beg();
+                    printf("%p\n%d\n",start->next,start->data);
+                    break;
             //case 3: insert_mid(); break;
             case 4: insert_end(); break;
             case 5: insert_after(); break;
@@ -84,16 +89,17 @@ void traverse_list()
 {
     struct node *ptr;
      ptr=start;
+     //printf("%p\n%d\n",start->next,start->data);
    while(ptr!=NULL)
    {
       printf("%d\n",ptr->data);
       ptr=ptr->next;
    }
 }
-void insert_beg(struct node *start)
+void insert_beg() //done
 {
     int data;
-    struct node *new_node;
+    struct node *new_node,*ptr;
     printf("enter data for node\n");
     scanf("%d",&data);
     new_node=(struct node*) malloc(sizeof(struct node));
@@ -101,28 +107,13 @@ void insert_beg(struct node *start)
     new_node->next=start;
     start=new_node;
 }
-void insert_end()
+void insert_end() //done
 {
     int data;
     struct node *new_node,*ptr;
+    ptr=start;
     printf("enter data for node\n");
     scanf("%d",&data);
-    new_node=(struct node*) malloc(sizeof(struct node));
-    while(ptr->next!=NULL)
-        {
-           ptr=ptr->next;
-           printf("enter data for node\n");
-        }
-    ptr->next=new_node;
-    new_node->data=data;
-    new_node->next=NULL;
-}
-void insert_before()
-{
-    int data,i;
-    struct node *new_node,*ptr;
-    printf("enter data for node and node no before which new node is to be inserted\n");
-    scanf("%d%d",&data,&i);
     new_node=(struct node*) malloc(sizeof(struct node));
     while(ptr->next!=NULL)
         ptr=ptr->next;
@@ -130,10 +121,28 @@ void insert_before()
     new_node->data=data;
     new_node->next=NULL;
 }
+void insert_before()
+{
+    int data,i,count=0;
+    struct node *new_node,*ptr,*preptr;
+    ptr=start;
+    printf("enter data for node and node no before which new node is to be inserted\n");
+    scanf("%d%d",&data,&i);
+    new_node=(struct node*) malloc(sizeof(struct node));
+    while(ptr->next!=NULL && count!=i)
+    {
+        preptr=ptr;
+        ptr=ptr->next;
+        count++;
+    }
+    preptr->next=new_node;
+    new_node->data=data;
+    new_node->next=ptr;
+}
 void insert_after()
 {
     int data,i,a;
-    struct node *new_node,*ptr;
+    struct node *new_node,*ptr,*temp_ptr;
     printf("enter data for node and node no of new node after which new node is to be inserted\n");
     scanf("%d%d",&data,&i);
     new_node=(struct node*) malloc(sizeof(struct node));
@@ -148,8 +157,8 @@ void insert_after()
         printf("Entered no of nodes doesn't exist");
         return;
     }
-    ptr=ptr->next;
+    temp_ptr=ptr->next;
     ptr->next=new_node;
     new_node->data=data;
-    new_node->next=NULL;
+    new_node->next=temp_ptr;
 }
