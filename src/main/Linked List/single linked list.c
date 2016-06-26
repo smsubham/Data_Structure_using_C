@@ -181,6 +181,7 @@ void delete_end() //done
    pre_ptr->next=NULL;
    free(ptr); //deallocate memory
 }
+void delete_after() //done
 {
     int i,a=0;
     struct node *new_node,*ptr,*pre_ptr;
